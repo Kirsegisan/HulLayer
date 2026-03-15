@@ -15,10 +15,13 @@ import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import com.kirsegisan.hullayer.data.HulLayerApplication
 import com.kirsegisan.hullayer.data.repository.TrackRepository
+import com.kirsegisan.hullayer.data.values.TrackInfo
 import com.kirsegisan.hullayer.domain.PlaybackService
 import com.kirsegisan.hullayer.domain.toMediaItem
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 @OptIn(UnstableApi::class)
@@ -28,6 +31,12 @@ class PlaylistViewModel(
 ) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(PlayerUiState())
     private var mediaController: MediaController? = null
+    val trackList = trackRepository.getAllTracks()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
     private val playerListener = object : Player.Listener {
         override fun onEvents(player: Player, events: Player.Events) {
             super.onEvents(player, events)

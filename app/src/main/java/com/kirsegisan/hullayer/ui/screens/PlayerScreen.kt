@@ -18,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 
 @Composable
 fun PlayerScreen(
+    onNavigateToPlaylist: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: PlaylistViewModel = viewModel(factory = PlaylistViewModel.Factory)
 ) {
@@ -36,7 +37,8 @@ fun PlayerScreen(
             pausePlay = { viewModel.togglePlay() },
             pausePlayIcon = if (!isPlaying) Icons.Default.PlayArrow else Icons.Default.Pause,
             nextTrack = { viewModel.skipToNext() },
-            previewTrack = { viewModel.skipToPrevious() }
+            previewTrack = { viewModel.skipToPrevious() },
+            onNavigate = onNavigateToPlaylist
         )
     }
 }

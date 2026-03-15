@@ -3,6 +3,7 @@ package com.kirsegisan.hullayer.ui.layer
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FormatListNumbered
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.SkipNext
@@ -26,6 +27,7 @@ fun ButtonRow(
     pausePlayIcon: ImageVector,
     nextTrack: () -> Unit,
     previewTrack: () -> Unit,
+    onNavigate: () -> Unit = {}
 ){
     Row(
         modifier = modifier.defaultMinSize(24.dp)
@@ -51,6 +53,14 @@ fun ButtonRow(
         ) {
             Icon(
                 imageVector = Icons.Default.SkipNext,
+                contentDescription = "SkipNext"
+            )
+        }
+        IconButton(
+            onClick = onNavigate
+        ) {
+            Icon(
+                imageVector = Icons.Default.FormatListNumbered,
                 contentDescription = "SkipNext"
             )
         }
