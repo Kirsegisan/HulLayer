@@ -1,6 +1,7 @@
 package com.kirsegisan.hullayer.domain
 
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.media3.common.AudioAttributes
@@ -25,6 +26,7 @@ import com.kirsegisan.hullayer.data.repository.TrackRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -48,8 +50,7 @@ class PlaybackService : MediaLibraryService() {
         trackRepository = container.trackRepository
         settingsRepository = container.settingsRepository
         
-        notificationProvider = PlaybackNotificationProvider(this)
-        setMediaNotificationProvider(notificationProvider)
+
 
         // Build Player
         player = ExoPlayer.Builder(this)
@@ -68,6 +69,31 @@ class PlaybackService : MediaLibraryService() {
             .Builder(this, player, LibrarySessionCallback())
             .setSessionActivity(getSingleTopActivity())
             .build()
+
+        preparePlayer()
+    }
+
+    private fun preparePlayer() {
+        serviceScope.launch {
+            notificationProvider = PlaybackNotificationProvider(this@PlaybackService)
+            setMediaNotificationProvider(notificationProvider)
+
+
+            trackRepository.getAllTracks().collect { tracks ->
+                if (tracks.isEmpty()) return@collect
+
+                val mediaItems = tracks.map { it.toMediaItem() }
+
+                if (player.mediaItemCount == 0) {
+                    player.setMediaItems(mediaItems, 0, 0L)
+                    player.prepare()
+
+                    player.play()
+                } else {
+                    player.setMediaItems(mediaItems, false)
+                }
+            }
+        }
     }
 
     private fun getSingleTopActivity(): PendingIntent {

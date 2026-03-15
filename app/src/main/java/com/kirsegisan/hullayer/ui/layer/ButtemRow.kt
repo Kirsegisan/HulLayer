@@ -25,7 +25,7 @@ fun ButtonRow(
     pausePlay: () -> Unit,
     pausePlayIcon: ImageVector,
     nextTrack: () -> Unit,
-    previewTrack:() -> Unit,
+    previewTrack: () -> Unit,
 ){
     Row(
         modifier = modifier.defaultMinSize(24.dp)
