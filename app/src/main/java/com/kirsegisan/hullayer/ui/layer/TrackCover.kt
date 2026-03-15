@@ -30,7 +30,7 @@ import com.kirsegisan.hullayer.R
 @Composable
 fun TrackCover(cover: String?, modifier: Modifier = Modifier) {
     Box(
-        modifier = modifier.size(280.dp),
+        modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
         SubcomposeAsyncImage(
@@ -40,11 +40,7 @@ fun TrackCover(cover: String?, modifier: Modifier = Modifier) {
                 .crossfade(true)
                 .build(),
             contentDescription = "Album Art",
-            modifier = Modifier
-                .padding(16.dp)
-                .requiredSize(300.dp)
-                .aspectRatio(1f)
-                .clip(shape = MaterialTheme.shapes.small),
+            modifier = modifier,
             contentScale = ContentScale.Crop,
             error = {
                 Box(

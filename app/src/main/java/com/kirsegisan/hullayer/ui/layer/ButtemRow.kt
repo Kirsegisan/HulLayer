@@ -2,6 +2,9 @@ package com.kirsegisan.hullayer.ui.layer
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FormatListNumbered
 import androidx.compose.material.icons.filled.Pause
@@ -30,38 +33,37 @@ fun ButtonRow(
     onNavigate: () -> Unit = {}
 ){
     Row(
-        modifier = modifier.defaultMinSize(24.dp)
+        modifier = modifier.fillMaxSize()
     ) {
         IconButton(
-            onClick = previewTrack
+            onClick = previewTrack,
+            modifier
+                .weight(1f)
         ) {
             Icon(
                 imageVector = Icons.Default.SkipPrevious,
-                contentDescription = "SkipPrevious"
+                contentDescription = "SkipPrevious",
+                modifier.size(60.dp)
             )
         }
         IconButton(
-            onClick = pausePlay
+            onClick = pausePlay,
+            modifier.weight(1f)
         ) {
             Icon(
                 imageVector = pausePlayIcon,
-                contentDescription = "pausePlayIcon"
+                contentDescription = "pausePlayIcon",
+                modifier.size(60.dp)
             )
         }
         IconButton(
-            onClick = nextTrack
+            onClick = nextTrack,
+            modifier.weight(1f)
         ) {
             Icon(
                 imageVector = Icons.Default.SkipNext,
-                contentDescription = "SkipNext"
-            )
-        }
-        IconButton(
-            onClick = onNavigate
-        ) {
-            Icon(
-                imageVector = Icons.Default.FormatListNumbered,
-                contentDescription = "SkipNext"
+                contentDescription = "SkipNext",
+                modifier.size(60.dp)
             )
         }
     }
