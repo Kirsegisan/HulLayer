@@ -31,31 +31,31 @@ fun PlaylistScreen(
     viewModel: PlaylistViewModel = viewModel(factory = PlaylistViewModel.Factory)
 ){
     val trackList by viewModel.trackList.collectAsState()
-        LazyColumn(
-            modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ){
-            items(trackList, key = {it.id}){item ->
-                Row(
-                    Modifier.fillMaxWidth()
-                ) {
-                    TrackCover(
-                        item.cover,
-                        Modifier
-                            .size(58.dp)
-                            .fillMaxWidth()
-                            .padding(5.dp)
-                            .requiredSize(60.dp)
-                            .aspectRatio(1f)
-                            .clip(shape = MaterialTheme.shapes.small)
-                    )
-                    TrackInfoView(
-                        Modifier
-                            .fillMaxWidth(),
-                        trackInfo = item
-                    )
-                }
+    LazyColumn(
+        modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ){
+        items(trackList, key = {it.id}){item ->
+            Row(
+                Modifier.fillMaxWidth()
+            ) {
+                TrackCover(
+                    item.cover,
+                    Modifier
+                        .size(58.dp)
+                        .fillMaxWidth()
+                        .padding(5.dp)
+                        .requiredSize(60.dp)
+                        .aspectRatio(1f)
+                        .clip(shape = MaterialTheme.shapes.small)
+                )
+                TrackInfoView(
+                    Modifier
+                        .fillMaxWidth(),
+                    trackInfo = item
+                )
             }
         }
+    }
 }
