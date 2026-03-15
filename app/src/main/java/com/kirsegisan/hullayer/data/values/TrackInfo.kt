@@ -6,7 +6,7 @@ data class TrackInfo(
     val artist: String,
     val album: String,
     val duration: Long,
-    val uri: String,
+    val uri: String?,
     val cover: String = "none",
 ) {
     companion object {

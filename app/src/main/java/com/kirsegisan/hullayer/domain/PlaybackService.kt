@@ -49,8 +49,9 @@ class PlaybackService : MediaLibraryService() {
         val container = (application as HulLayerApplication).container
         trackRepository = container.trackRepository
         settingsRepository = container.settingsRepository
-        
 
+        notificationProvider = PlaybackNotificationProvider(this@PlaybackService)
+        setMediaNotificationProvider(notificationProvider)
 
         // Build Player
         player = ExoPlayer.Builder(this)
@@ -69,31 +70,6 @@ class PlaybackService : MediaLibraryService() {
             .Builder(this, player, LibrarySessionCallback())
             .setSessionActivity(getSingleTopActivity())
             .build()
-
-        preparePlayer()
-    }
-
-    private fun preparePlayer() {
-        serviceScope.launch {
-            notificationProvider = PlaybackNotificationProvider(this@PlaybackService)
-            setMediaNotificationProvider(notificationProvider)
-
-
-            trackRepository.getAllTracks().collect { tracks ->
-                if (tracks.isEmpty()) return@collect
-
-                val mediaItems = tracks.map { it.toMediaItem() }
-
-                if (player.mediaItemCount == 0) {
-                    player.setMediaItems(mediaItems, 0, 0L)
-                    player.prepare()
-
-                    player.play()
-                } else {
-                    player.setMediaItems(mediaItems, false)
-                }
-            }
-        }
     }
 
     private fun getSingleTopActivity(): PendingIntent {
